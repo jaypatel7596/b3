@@ -1,6 +1,11 @@
+"use client"
+
 import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
+import { useAuthStore } from "../store";
+import { useEffect } from "react";
+import apiClient from "./api/apiClient";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -19,6 +24,17 @@ const ThemeImage = (props: Props) => {
 };
 
 export default function Home() {
+  
+  const { token } = useAuthStore()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data =  await apiClient.get("/todos/1")
+      console.log("data---->", data)
+    }
+    fetchData()
+  }, [])
+  
   return (
     <div className={styles.page}>
       <main className={styles.main}>
